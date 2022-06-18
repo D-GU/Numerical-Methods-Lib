@@ -82,7 +82,7 @@ double Secant::calculateRoot(double (*function)(double), int *div_counter) {
     return 0;
 }
 
-Gauss::Gauss(int size,
+Gauss::Gauss(short size,
              const std::string &matrix_filepath,
              const std::string &vector_filepath,
              bool create) : size_(size) {

@@ -6,6 +6,7 @@
 #include "string"
 #include "random"
 
+/// Function, that returns random double number within the diapason
 double randomDouble(double start, double end);
 
 class Dichotomy {
@@ -47,7 +48,7 @@ private:
 
 class Gauss {
 public:
-    explicit Gauss(int size,
+    explicit Gauss(short size,
                    const std::string &matrix_filepath,
                    const std::string &vector_filepath,
                    bool create = true);
