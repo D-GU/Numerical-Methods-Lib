@@ -121,7 +121,7 @@ Gauss::Gauss(short power,
 }
 
 std::vector<double> Gauss::calculateGauss() {
-    short int index_;
+    int index_;
 
     double maximum_;
     double temp_;
@@ -192,19 +192,19 @@ Newton::Newton(double (*function)(double),
         exp_point_(exp_point),
         power_(power + 1) {
 
-    value_.resize(power_);
+    fvalue_.resize(power_);
 
     nodes_.resize(power_);
     nodes_ = nodes;
 
     for (int i = 0; i <= nodes_.size(); i++) {
-        value_[i] = function(nodes[i]);
+        fvalue_[i] = function(nodes[i]);
     }
 
     difference_.resize(power_ * power_);
 
     for (int i = 0; i < power_; i++) {
-        difference_[i * power_ + 0] = value_[i];
+        difference_[i * power_ + 0] = fvalue_[i];
     }
 
 }
@@ -278,7 +278,7 @@ double IntegralMethod::calculateSimpson(double function(double x)) {
     step_ *= 2;
     width_ /= 2;
 
-    s2 = s1 + s2;
+    s2 += s1;
     s1 = 0;
 
     for (int i = 1; i < step_; i += 2) {

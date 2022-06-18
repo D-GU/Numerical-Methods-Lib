@@ -76,7 +76,7 @@ public:
     explicit Newton(double function(double x),
                     const std::vector<double> &nodes,
                     double exp_point,
-                    short int power);
+                    short power);
 
     virtual ~Newton() = default;
 
@@ -89,7 +89,7 @@ private:
     std::vector<double> difference_;
     std::vector<double> diag_vec_;
 
-    short int power_;
+    short power_;
 
     double exp_point_;
 };
