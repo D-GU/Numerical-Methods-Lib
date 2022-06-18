@@ -243,12 +243,12 @@ double Newton::calculateNewton() {
     return result;
 }
 
-IntegralMethod::IntegralMethod(double start, double end, double eps, int step)
-        : start_(start),
-          end_(end),
-          width_((end - start) / step),
-          eps_(eps),
-          step_(step) {
+IntegralMethod::IntegralMethod(double start, double end, double eps, int step) :
+        start_(start),
+        end_(end),
+        width_((end - start) / step),
+        eps_(eps),
+        step_(step) {
 
 }
 
