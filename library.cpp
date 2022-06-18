@@ -405,7 +405,9 @@ MonteCarlo::MonteCarlo(long power) :
         power_(power),
         random_x_(0),
         random_y_(0),
-        random_z_(0) {}
+        random_z_(0) {
+
+}
 
 double MonteCarlo::calculateMonteCarlo1(double function(double x, double y)) {
     for (int i = 0; i <= power_; i++) {
