@@ -244,10 +244,10 @@ double Newton::calculateNewton() {
     return result;
 }
 
-IntegralMethod::IntegralMethod(double start_interval, double end_interval, double eps, int step)
-        : start_interval_(start_interval),
-          end_interval_(end_interval),
-          width_((end_interval - start_interval) / step),
+IntegralMethod::IntegralMethod(double start, double end, double eps, int step)
+        : start_(start),
+          end_(end),
+          width_((end - start) / step),
           eps_(eps),
           step_(step) {
 
@@ -259,21 +259,21 @@ double IntegralMethod::calculateSimpson(double function(double x)) {
     double integral1;
     double integral2;
 
-    double s0 = function(start_interval_) + function(end_interval_);
+    double s0 = function(start_) + function(end_);
     double s1 = 0.0;
     double s2 = 0.0;
 
     eps_ *= temp;
 
     for (int i = 1; i < step_; i += 2) {
-        s1 += function(start_interval_ + (i * width_));
+        s1 += function(start_ + (i * width_));
     }
 
     for (int i = 0; i < step_; i += 2) {
-        s2 += function(start_interval_ + (i * width_));
+        s2 += function(start_ + (i * width_));
     }
 
-    integral1 = ((end_interval_ - start_interval_) / (3 * step_)) * (s0 + 4 * s1 + 2 * s2);
+    integral1 = ((end_ - start_) / (3 * step_)) * (s0 + 4 * s1 + 2 * s2);
 
     step_ *= 2;
     width_ /= 2;
@@ -282,10 +282,10 @@ double IntegralMethod::calculateSimpson(double function(double x)) {
     s1 = 0;
 
     for (int i = 1; i < step_; i += 2) {
-        s1 += function(start_interval_ + (i * width_));
+        s1 += function(start_ + (i * width_));
     }
 
-    integral2 = ((end_interval_ - start_interval_) / (3 * step_)) * (s0 + 4 * s1 + 2 * s2);
+    integral2 = ((end_ - start_) / (3 * step_)) * (s0 + 4 * s1 + 2 * s2);
 
     while (fabs(integral2 - integral1) >= eps_) {
         step_ *= 2;
@@ -296,10 +296,10 @@ double IntegralMethod::calculateSimpson(double function(double x)) {
         s1 = 0;
 
         for (int i = 1; i < step_; i += 2) {
-            s1 += function(start_interval_ + (i * width_));
+            s1 += function(start_ + (i * width_));
         }
 
-        integral2 = ((end_interval_ - start_interval_) / (3 * step_)) * (s0 + 4 * s1 + 2 * s2);
+        integral2 = ((end_ - start_) / (3 * step_)) * (s0 + 4 * s1 + 2 * s2);
     }
 
     return integral2;
@@ -402,11 +402,13 @@ double CubeSpline::calculateCubeSpline() {
     return result_;
 }
 
-MonteCarlo::MonteCarlo(long power) : power_(power) {}
+MonteCarlo::MonteCarlo(long power) :
+        power_(power),
+        random_x_(0),
+        random_y_(0),
+        random_z_(0) {}
 
 double MonteCarlo::calculateMonteCarlo1(double function(double x, double y)) {
-
-
     for (int i = 0; i <= power_; i++) {
         random_x_ = randomDouble(0, 1);
         random_y_ = randomDouble(0, 1);

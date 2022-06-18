@@ -96,7 +96,7 @@ private:
 
 class IntegralMethod {
 public:
-    explicit IntegralMethod(double start_interval, double end_interval, double eps, int step);
+    explicit IntegralMethod(double start, double end, double eps, int step);
 
     virtual ~IntegralMethod() = default;
 
@@ -104,8 +104,8 @@ public:
     virtual double calculateSimpson(double function(double x));
 
 private:
-    double start_interval_;
-    double end_interval_;
+    double start_;
+    double end_;
     double width_;
     double eps_;
 
@@ -169,12 +169,12 @@ public:
     double calculateMonteCarlo2(double function(double x, double y));
 
 private:
-    double random_x_;
-    double random_y_;
-    double random_z_;
-    double summary_;
-
     long power_;
+
+    double random_x_ = 0;
+    double random_y_ = 0;
+    double random_z_ = 0;
+    double summary_ = 0;
 
 };
 
