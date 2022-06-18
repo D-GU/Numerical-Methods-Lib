@@ -292,7 +292,7 @@ double IntegralMethod::calculateSimpson(double function(double x)) {
         width_ /= 2;
 
         integral1 = integral2;
-        s2 = s1 + s2;
+        s2 += s1;
         s1 = 0;
 
         for (int i = 1; i < step_; i += 2) {
