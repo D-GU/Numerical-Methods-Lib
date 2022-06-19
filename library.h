@@ -13,7 +13,7 @@ double randomDouble(double start, double end);
 // When using the constructor user enters the start of the section, the end of the section and accuracy.
 //
 // When finding the root, user calls class's method - calculateRoot:
-//      User gives function which root is to be calculated as a parameter.
+//      User passes a function which root is to be calculated as a parameter.
 //      Also, user gives the address of the variable that contains quantity of division of the section.
 class Dichotomy {
 public:
