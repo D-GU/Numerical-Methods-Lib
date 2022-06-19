@@ -243,12 +243,12 @@ double Newton::calculateNewton() {
     return result;
 }
 
-IntegralMethod::IntegralMethod(double start, double end, double eps, int step)
-        : start_(start),
-          end_(end),
-          width_((end - start) / step),
-          eps_(eps),
-          step_(step) {
+IntegralMethod::IntegralMethod(double start, double end, double eps, int step) :
+        start_(start),
+        end_(end),
+        width_((end - start) / step),
+        eps_(eps),
+        step_(step) {
 
 }
 
@@ -405,7 +405,9 @@ MonteCarlo::MonteCarlo(long power) :
         power_(power),
         random_x_(0),
         random_y_(0),
-        random_z_(0) {}
+        random_z_(0) {
+
+}
 
 double MonteCarlo::calculateMonteCarlo1(double function(double x, double y)) {
     for (int i = 0; i <= power_; i++) {
