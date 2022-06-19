@@ -6,9 +6,15 @@
 #include "string"
 #include "random"
 
-/// Function, that returns random double number within the diapason
+// Function, that returns random double number within the diapason
 double randomDouble(double start, double end);
 
+// Dichotomy method. Method that finds the root of the function on specific section.
+// When using the constructor user enters the start of the section, the end of the section and accuracy.
+//
+// When finding the root, user calls class's method - calculateRoot:
+//      User gives function which root is to be calculated as a parameter.
+//      Also, user gives the address of the variable that contains quantity of division of the section.
 class Dichotomy {
 public:
     explicit Dichotomy(double start, double end, double epsilon);
@@ -19,10 +25,10 @@ public:
     virtual double calculateRoot(double function(double x), int *div_counter);
 
 private:
-    double a_;
-    double b_;
-    double c_;
-    double eps_;
+    double a_; /// start of the section
+    double b_; /// middle of the section
+    double c_; /// end of the section
+    double eps_; /// accuracy
 
 };
 
@@ -178,4 +184,4 @@ private:
 
 };
 
-#endif //NUMERICALMETHODSLIB_LIBRARY_H
+#endif NUMERICALMETHODSLIB_LIBRARY_H
