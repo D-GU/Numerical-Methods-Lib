@@ -15,6 +15,11 @@ double randomDouble(double start, double end);
 // When finding the root, user calls class's method - calculateRoot:
 //      User passes a function which root is to be calculated as a parameter.
 //      Also, user gives the address of the variable that contains quantity of division of the section.
+//
+// Example:
+//        Dichotomy dichotomy(a, b, epsilon);
+//        dichotomy.calculateRoot(function);
+//
 class Dichotomy {
 public:
     explicit Dichotomy(double start, double end, double epsilon);
@@ -26,12 +31,19 @@ public:
 
 private:
     double a_; /// start of the section
-    double b_; /// middle of the section
-    double c_; /// end of the section
+    double b_; /// end of the section
+    double c_; /// middle of the section (end of the new section)
     double eps_; /// accuracy
 
 };
 
+// Class Secant. A derivative class of Dichotomy.
+// To initialize the object Secant uses the same constructor as Dichotomy class.
+// To calculate root of the function Secant uses the same method as Dichotomy class.
+//
+// If in Dichotomy the end of the section calculates by the formula: (a + b) / 2
+// in secant the formula is ((-f(a) * b) + (a * f(b)) / (-f(a) * f(b)).
+//
 class Secant : protected Dichotomy {
 public:
 
@@ -45,13 +57,34 @@ public:
     double calculateRoot(double function(double x), int *div_counter) override;
 
 private:
-    double a_;
-    double b_;
-    double c_;
-    double eps_;
+    double a_; /// start of the section
+    double b_; /// end of the section
+    double c_; /// middle of the section (end of the new section)
+    double eps_; /// accuracy
 
 };
 
+// Gauss method of solving linear equations.
+//
+// The object could be initialized in two different ways.
+// First one being reading the data from the files
+// and the second one is manually passing the data in to the constructor.
+//
+// The data is the matrix A and vector b. In this project
+// matrix is banded-matrix.
+//
+// Example:
+//        1) Gauss gauss(size,
+//                       MATRIX_PATH,
+//                       VECTOR_PATH,
+//                       true);
+//           solution_vec = gauss.findSolutionGauss();
+//
+//        2) Gauss gauss(size,
+//                       matrix,
+//                       vector,
+//                       true).
+//           solution_vec = gauss.findSolutionGauss();
 class Gauss {
 public:
     explicit Gauss(short size,
@@ -66,14 +99,14 @@ public:
     virtual ~Gauss() = default;
 
 public:
-    std::vector<double> calculateGauss();
+    std::vector<double> findSolutionGauss();
 
 private:
-    std::vector<double> prototype_;
-    std::vector<double> vec_;
-    std::vector<double> result_vec_;
+    std::vector<double> prototype_; /// matrix A
+    std::vector<double> vec_; /// vector b
+    std::vector<double> result_vec_; /// vector x(solution of linear system)
 
-    short int size_;
+    short int size_; /// dim(A)
 };
 
 class Newton {
@@ -184,4 +217,4 @@ private:
 
 };
 
-#endif NUMERICALMETHODSLIB_LIBRARY_H
+#endif //NUMERICALMETHODSLIB_LIBRARY_H

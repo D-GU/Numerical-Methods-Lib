@@ -1,6 +1,7 @@
 #include "library.h"
 #include "cmath"
 #include <fstream>
+#include "iterator"
 
 double randomDouble(double start, double end) {
     std::random_device rd;
@@ -119,7 +120,7 @@ Gauss::Gauss(short power,
         vec_(free_vector) {
 }
 
-std::vector<double> Gauss::calculateGauss() {
+std::vector<double> Gauss::findSolutionGauss() {
     int index_;
 
     double maximum_;
