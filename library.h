@@ -30,9 +30,9 @@ public:
     virtual double calculateRoot(double function(double x), int *div_counter);
 
 private:
-    double a_; /// start of the section
-    double b_; /// end of the section
-    double c_; /// middle of the section (end of the new section)
+    double start_; /// start of the section
+    double end_; /// end of the section
+    double pivot_; /// middle of the section (end of the new section)
     double eps_; /// accuracy
 
 };
@@ -57,9 +57,9 @@ public:
     double calculateRoot(double function(double x), int *div_counter) override;
 
 private:
-    double a_; /// start of the section
-    double b_; /// end of the section
-    double c_; /// middle of the section (end of the new section)
+    double start_; /// start of the section
+    double end_; /// end of the section
+    double pivot_; /// middle of the section (end of the new section)
     double eps_; /// accuracy
 
 };
@@ -80,10 +80,12 @@ private:
 //                       true);
 //           solution_vec = gauss.findSolutionGauss();
 //
-//        2) Gauss gauss(size,
+//        2) std::vector<double> matrix = {x1, x2, ..., xn};
+//           std::vector<double> vector = {y1, y2, ..., yn};
+//           Gauss gauss(size,
 //                       matrix,
 //                       vector,
-//                       true).
+//                       true);
 //           solution_vec = gauss.findSolutionGauss();
 class Gauss {
 public:
@@ -102,7 +104,7 @@ public:
     std::vector<double> findSolutionGauss();
 
 private:
-    std::vector<double> prototype_; /// matrix A
+    std::vector<double> matrix_; /// matrix A
     std::vector<double> vec_; /// vector b
     std::vector<double> result_vec_; /// vector x(solution of linear system)
 

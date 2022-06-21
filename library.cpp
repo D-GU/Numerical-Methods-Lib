@@ -13,8 +13,8 @@ double randomDouble(double start, double end) {
 Dichotomy::Dichotomy(double start,
                      double end,
                      double epsilon) :
-        a_(start),
-        b_(end),
+        start_(start),
+        end_(end),
         eps_(epsilon) {
 
 }
@@ -22,8 +22,8 @@ Dichotomy::Dichotomy(double start,
 double Dichotomy::calculateRoot(double (*function)(double),
                                 int *div_counter) {
 
-    double function_a_ = function(a_);
-    double function_b_ = function(b_);
+    double function_a_ = function(start_);
+    double function_b_ = function(end_);
     double function_c_ = 0;
 
     if (function_a_ * function_b_ > 0) {
@@ -31,21 +31,21 @@ double Dichotomy::calculateRoot(double (*function)(double),
         return 0;
     }
 
-    while (fabs(b_ - a_) >= eps_) {
-        c_ = (a_ + b_) * 0.5;
-        function_c_ = function(c_);
+    while (fabs(end_ - start_) >= eps_) {
+        pivot_ = (start_ + end_) * 0.5;
+        function_c_ = function(pivot_);
         *div_counter += 1;
 
         if (function_a_ * function_c_ <= 0) {
-            b_ = c_;
+            end_ = pivot_;
             function_b_ = function_c_;
         } else {
-            a_ = c_;
+            start_ = pivot_;
             function_a_ = function_c_;
         }
 
-        if (fabs(b_ - a_) < eps_) {
-            return c_;
+        if (fabs(end_ - start_) < eps_) {
+            return pivot_;
         }
     }
 
@@ -55,28 +55,28 @@ double Dichotomy::calculateRoot(double (*function)(double),
 double Secant::calculateRoot(double (*function)(double), int *div_counter) {
     double temp;
 
-    double function_a_ = function(a_);
-    double function_b_ = function(b_);
+    double function_a_ = function(start_);
+    double function_b_ = function(end_);
     double function_c_ = 0;
 
     while (function_a_ * function_b_ < 0) {
-        c_ = (-function_a_ * b_ + function_b_ * a_) / (-function_a_ + function_b_);
-        function_c_ = function(c_);
+        pivot_ = (-function_a_ * end_ + function_b_ * start_) / (-function_a_ + function_b_);
+        function_c_ = function(pivot_);
         *div_counter += 1;
 
         if (function_a_ * function_c_ <= 0) {
-            b_ = c_;
+            end_ = pivot_;
             function_b_ = function_c_;
         } else {
-            a_ = c_;
+            start_ = pivot_;
             function_a_ = function_c_;
         }
 
-        if (fabs(function_c_) < eps_ && fabs(c_ - temp) < eps_) {
-            return c_;
+        if (fabs(function_c_) < eps_ && fabs(pivot_ - temp) < eps_) {
+            return pivot_;
         }
 
-        temp = c_;
+        temp = pivot_;
     }
 
     return 0;
@@ -90,12 +90,12 @@ Gauss::Gauss(short size,
     std::ifstream numbers;
     numbers.open(matrix_filepath);
 
-    prototype_.resize(size_ * size_);
+    matrix_.resize(size_ * size_);
     vec_.resize(size_);
 
     for (int i = 0; i < size_; i++) {
         for (int j = 0; j < size_; j++) {
-            numbers >> prototype_[i * size_ + j];
+            numbers >> matrix_[i * size_ + j];
         }
     }
     numbers.close();
@@ -116,7 +116,7 @@ Gauss::Gauss(short power,
              std::vector<double> &matrix,
              std::vector<double> &free_vector) :
         size_(power),
-        prototype_(matrix),
+        matrix_(matrix),
         vec_(free_vector) {
 }
 
@@ -132,12 +132,12 @@ std::vector<double> Gauss::findSolutionGauss() {
     result_vec_ = vec_;
 
     for (int rows = 0; rows < size_; rows++) {
-        maximum_ = fabs(prototype_[rows * size_ + rows]);
+        maximum_ = fabs(matrix_[rows * size_ + rows]);
         index_ = rows;
 
         for (int i = rows + 1; i < size_; i++) {
-            if (fabs(prototype_[rows * size_ + rows]) > maximum_) {
-                maximum_ = fabs(prototype_[rows * size_ + rows]);
+            if (fabs(matrix_[rows * size_ + rows]) > maximum_) {
+                maximum_ = fabs(matrix_[rows * size_ + rows]);
                 index_ = i;
             }
         }
@@ -148,15 +148,15 @@ std::vector<double> Gauss::findSolutionGauss() {
         }
 
         for (int j = 0; j < size_; j++) {
-            std::swap(prototype_[rows * size_ + j], prototype_[index_ * size_ + j]);
+            std::swap(matrix_[rows * size_ + j], matrix_[index_ * size_ + j]);
         }
 
         std::swap(vec_[rows], vec_[index_]);
 
         for (int i = rows + 1; i < size_; i++) {
-            temp_ = prototype_[i * size_ + rows] / prototype_[rows * size_ + rows];
+            temp_ = matrix_[i * size_ + rows] / matrix_[rows * size_ + rows];
             for (int j = rows; j < size_; j++) {
-                prototype_[i * size_ + j] -= temp_ * prototype_[rows * size_ + j];
+                matrix_[i * size_ + j] -= temp_ * matrix_[rows * size_ + j];
             }
             vec_[i] -= temp_ * vec_[rows];
         }
@@ -164,7 +164,7 @@ std::vector<double> Gauss::findSolutionGauss() {
 
     temp_ = 0.0;
 
-    if (prototype_[(size_ - 1) * size_ + (size_ - 1)] == 0) {
+    if (matrix_[(size_ - 1) * size_ + (size_ - 1)] == 0) {
         if (vec_[size_ - 1] == 0) {
             std::cout << "Matrix has infinite solutions." << "\n";
             return {};
@@ -176,9 +176,9 @@ std::vector<double> Gauss::findSolutionGauss() {
         for (int i = size_ - 1; i >= 0; i--) {
             temp_ = 0.0;
             for (int j = i + 1; j < size_; j++) {
-                temp_ += prototype_[i * size_ + j] * result_vec_[j];
+                temp_ += matrix_[i * size_ + j] * result_vec_[j];
             }
-            result_vec_[i] = (vec_[i] - temp_) / prototype_[i * size_ + i];
+            result_vec_[i] = (vec_[i] - temp_) / matrix_[i * size_ + i];
         };
     }
 
