@@ -121,6 +121,7 @@ Gauss::Gauss(short power,
 }
 
 std::vector<double> Gauss::findSolutionGauss() {
+    const double eps_ = 1e-5;
     int index_;
 
     double maximum_;
@@ -142,7 +143,7 @@ std::vector<double> Gauss::findSolutionGauss() {
             }
         }
 
-        if (maximum_ < 1e-15) {
+        if (maximum_ < eps_) {
             std::cout << "Matrix has no solution" << "\n";
             return {};
         }
