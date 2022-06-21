@@ -1,7 +1,6 @@
 #include "library.h"
 #include "cmath"
 #include <fstream>
-#include "iterator"
 
 double randomDouble(double start, double end) {
     std::random_device rd;
