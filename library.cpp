@@ -20,6 +20,18 @@ Dichotomy::Dichotomy(double start,
 
 double Dichotomy::calculateRoot(double (*function)(double),
                                 int *div_counter) {
+    /*
+     * First we calculate function values on the start
+     * and the end of the section.
+     * If function has the same sign there
+     * then it has no roots - program is done
+     *
+     * Otherwise, while absolute of (end - start) is
+     * greater than our epsilon, we continue doing our actions
+     * Finding the pivot and counting function value there and then
+     * checking sign of the function values on start and on pivot gives
+     * us the information of the function root.
+     */
 
     double function_a_ = function(start_);
     double function_b_ = function(end_);
@@ -52,6 +64,12 @@ double Dichotomy::calculateRoot(double (*function)(double),
 }
 
 double Secant::calculateRoot(double (*function)(double), int *div_counter) {
+    /* In the secant method we do the same thing as we did
+     * in the dichotomy method but the pivot calculation is different
+     *
+     * pivot = ((-f(a) * b) + (a * f(b)) / (-f(a) * f(b))
+     * */
+
     double temp;
 
     double function_a_ = function(start_);
@@ -120,6 +138,21 @@ Gauss::Gauss(short power,
 }
 
 std::vector<double> Gauss::findSolutionGauss() {
+    /* The Gaussian method of finding the algebraic system
+     * solution.
+     *
+     * First we find the maximum element in each column
+     * If max element is less the epsilon then it equals to 0
+     * and matrix is invertible.
+     *
+     * We swap the rows until the max element is not
+     * on diagonal
+     *
+     * Then we subtract the rows, and we eliminated matrix, so we could find
+     * the coefficients
+     *
+     * We found coefficients via Reverse Gaussian algorithm.
+     **/
     const double eps_ = 1e-5;
     int index_;
 
@@ -210,6 +243,15 @@ Newton::Newton(double (*function)(double),
 }
 
 double Newton::calculateNewton() {
+/* First we calculate the divided difference table
+ * by the formula: (f_i(x) - f_j(x)) / (x_i - x_j)
+ * We calculate this first, so we don't have to calculate
+ * derivative everytime we have to.
+ * Needed derivative will be on the table diagonal
+ *
+ * After that we just use Newton's formula to count the
+ * value of the function in our point.
+*/
     double mul = 1.0;
     double result = 0.0;
 
