@@ -296,6 +296,17 @@ IntegralMethod::IntegralMethod(double start, double end, double eps, int step) :
 }
 
 double IntegralMethod::calculateSimpson(double function(double x)) {
+    /* For start, we count sum of f(0) + f(1)
+     * s1 - sum of odd nodes
+     * s2 - sum of even nodes
+     *
+     * After we find our we can count I1 via formula:
+     * (b - a) / (3 * n) * (s0 + 4 * s1 + 2 * s2)
+     *
+     * Then we use Runge's rule which is used to evaluate the error
+     * We basically divide each section by two, so we can calculate s0 and s1 again
+     * and if I1 and I2 is less than epsilon we return I2 which is the value of integral.
+     * */
     const double temp = 15. / 16;
 
     double integral1;
